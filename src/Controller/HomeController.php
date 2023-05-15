@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\NewsService;
 use App\service\StringManipulationService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +21,8 @@ class HomeController extends  AbstractController {
             HttpClientInterface $httpclient,
             StringManipulationService $stringManipulationService,
             Environment $twig,
-            HttpClientInterface $httpClient
+            HttpClientInterface $httpClient,
+            NewsService $service
     ):Response{
 
         $test = 'abmael]de[lima]ferreira]Fera';
@@ -48,14 +50,17 @@ class HomeController extends  AbstractController {
               return $this->render('hello/homepage.html.twig',[
 
                    'pageTitle' => $pageTitle,
-                  'categories' => $this->getCategoryList($httpClient),
+                  'categories' => $service->getCategoryList($httpClient),
 //                   'categories' => $categories,
                   ]);
 
     }
 
     #[Route('/categoria/{slug}', name: 'app_category')]
-    public function category(string $slug=null, HttpClientInterface $httpClient):Response{
+    public function category(
+                                string $slug=null,
+                                HttpClientInterface $httpClient,
+                                NewsService $service):Response{
 
 
         $pageTitle =  $slug;
@@ -63,9 +68,9 @@ class HomeController extends  AbstractController {
 
         return $this->render('hello/category.html.twig', [
 
-            'categories' => $this->getCategoryList($httpClient),
+            'categories' => $service->getCategoryList($httpClient),
             'pageTitle' => $pageTitle,
-            'news' => $this->getNewsList($httpClient)
+            'news' => $service->getNewsList($httpClient)
        ]);
     }
 
@@ -112,27 +117,6 @@ class HomeController extends  AbstractController {
 
 
 
-    public function getCategoryList($httpClient){
-
-        $url  = 'https://raw.githubusercontent.com/JonasPoli/array-news/main/arrayCategoryNews.json';
-
-        $html = $httpClient->request('GET', $url);
-
-        $news =  $html->toArray();
-
-        return $news;
-    }
-
-    public function getNewsList($httpClient){
-
-        $url  = 'https://raw.githubusercontent.com/JonasPoli/array-news/main/arrayNews.json';
-
-        $html = $httpClient->request('GET', $url);
-
-        $news =  $html->toArray();
-
-        return $news;
-    }
 
 //    #[Route('/news/{id}')]
 //    public function newsDetail(int $id=null, HttpClientInterface $httpclient){
