@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Controller;
+
+use App\Service\NewsService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class ReportController extends AbstractController
+{
+    #[Route('/report', name: 'app_report')]
+    public function index(NewsService $newService): Response
+    {
+        return $this->render('report/index.html.twig', [
+            'categories'=> $newService->getCategoryList(),
+            'controller_name' => 'ReportController',
+        ]);
+    }
+}

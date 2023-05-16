@@ -41,7 +41,7 @@ class NewsService
 
 //            $cacheItem->expiresAfter(10);
 
-            $cacheItem->expiresAfter($this->isDebug ? 1 : 60);
+//            $cacheItem->expiresAfter($this->isDebug ? 1 : 60);
             $url  = 'https://raw.githubusercontent.com/JonasPoli/array-news/main/arrayNews.json';
 
             $html = $this->httpClient->request('GET', $url);

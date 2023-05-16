@@ -85,42 +85,27 @@ class HomeController extends  AbstractController {
 
 
     #[Route('/reportagens')]
-    public function getTest(Request $request): Response {
+    public function getTest(
+                            Request $request,
+                            HttpClientInterface $httpClient,
+                            NewsService $service): Response {
 
-        $nome = "";
-        $sobrenome = "";
+                $nome = "";
+                $sobrenome = "";
 
-          if($request->get('nome')){
-              $nome =  $request->get('nome');
-          }
+                if($request->get('nome')){
+                    $nome =  $request->get('nome');
+                }
+                if($request->get('sobrenome')){
+                    $sobrenome =  $request->get('sobrenome');
+                }
+                dump($nome);
+                dump($sobrenome);
 
-
-         if($request->get('sobrenome')){
-             $sobrenome =  $request->get('sobrenome');
-         }
-
-        $categories = [
-            ['title'=> 'Mundo',         'text' => 'Noticias sobre  mundo'],
-            ['title'=> 'Brasil',        'text' => 'Noticias sobre  Brasil'],
-            ['title'=> 'Tecnologia',    'text' => 'Noticias sobre  tecnologia'],
-            ['title'=> 'Design',        'text' => 'Noticias sobre  Design'],
-            ['title'=> 'Cultura',       'text' => 'Noticias sobre  Cultura'],
-            ['title'=> 'Negócios',      'text' => 'Noticias sobre  Negocios'],
-            ['title'=> 'Política',      'text' => 'Noticias sobre  Politica'],
-            ['title'=> 'Opinião',       'text' => 'Noticias sobre  Opinião'],
-            ['title'=> 'Ciência',       'text' => 'Noticias sobre  Ciencia'],
-            ['title'=> 'Saúde',         'text' => 'Noticias sobre  Saúde'],
-            ['title'=> 'Estilo',        'text' => 'Noticias sobre  Estilo'],
-            ['title'=> 'Viagens',       'text' => 'Noticias sobre  Viagens'],
-        ];
-
-        dump($nome);
-        dump($sobrenome);
-
-        return $this->render('reportagens.html.twig', [
-            'categories' => $categories,
-//            'nome' => $nome,
-//            'sobrenome' => $sobrenome
+            return $this->render('reportagens.html.twig', [
+            'categories' => $service->getCategoryList($httpClient),
+            //'nome' => $nome,
+            //'sobrenome' => $sobrenome
         ]);
     }
 
