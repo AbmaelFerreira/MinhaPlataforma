@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Psr\Cache\CacheItemInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -12,7 +13,9 @@ class NewsService
         public function  __construct(
             private HttpClientInterface $httpClient,
             private CacheInterface $cacheInterface,
-            private bool $isDebug){
+//            #[Autowire('kernel.debug')]
+//            private bool $isDebug
+        ){
 //          $this->httpClient = $httpClient; // Apartir do PHP8 não preciso mais dessa informação, somente adicionar private no atributo do construtor
         }
 
