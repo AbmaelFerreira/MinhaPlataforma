@@ -11,7 +11,8 @@ class NewsService
 //        private $httpClient;   // Apartir do PHP8 não preciso mais dessa informação, somente adicionar private no atributo do construtor
         public function  __construct(
             private HttpClientInterface $httpClient,
-            private CacheInterface $cacheInterface){
+            private CacheInterface $cacheInterface,
+            private bool $isDebug){
 //          $this->httpClient = $httpClient; // Apartir do PHP8 não preciso mais dessa informação, somente adicionar private no atributo do construtor
         }
 
@@ -35,8 +36,9 @@ class NewsService
     public function getNewsList(){
         $newsList = $this->cacheInterface->get('news_list', function (CacheItemInterface $cacheItem){
 
-            $cacheItem->expiresAfter(10);
+//            $cacheItem->expiresAfter(10);
 
+            $cacheItem->expiresAfter($this->isDebug ? 1 : 60);
             $url  = 'https://raw.githubusercontent.com/JonasPoli/array-news/main/arrayNews.json';
 
             $html = $this->httpClient->request('GET', $url);
