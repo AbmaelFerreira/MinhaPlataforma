@@ -5,9 +5,9 @@ services:
     image: postgres:15-alpine
     restart: on-failure
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: test
+      POSTGRES_USER: sf_user
+      POSTGRES_PASSWORD: random_password
       PGDATA: /var/lib/postgresql/data
     volumes:
       - db-data:/var/lib/postgresql/data:rw

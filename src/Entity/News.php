@@ -26,7 +26,7 @@ class News
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
-    public function __constructor(){
+    public function __construct(){
         $this->createAt = new \DateTimeImmutable();
     }
 
