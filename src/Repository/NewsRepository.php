@@ -39,6 +39,8 @@ class NewsRepository extends ServiceEntityRepository
         }
     }
 
+
+
 //    /**
 //     * @return News[] Returns an array of News objects
 //     */

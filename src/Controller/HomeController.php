@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\News;
+use App\Entity\NewsCategory;
 use App\Service\NewsService;
 use App\service\StringManipulationService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +19,9 @@ use function Symfony\Component\String\u;
 
 class HomeController extends  AbstractController {
 
-    public function __construct( #[Autowire('kernel.debug')] private bool $isDebug ) { }
+    public function __construct(
+        #[Autowire('kernel.debug')] private bool $isDebug,
+        private NewsService $newsService) { }
 
     #[Route('/', name: 'app_home')]
     public function home(
@@ -28,13 +31,13 @@ class HomeController extends  AbstractController {
             Environment $twig,
             HttpClientInterface $httpClient,
             NewsService $service
-    ):Response{
+    ): Response{
 
         $test = 'abmael]de[lima]ferreira]Fera';
 
         $novaString = $stringManipulationService->cleanString($test);
 
-        $response =$httpclient->request('GET','https://127.0.0.1:8000/api/news/12');
+        //$response =$httpclient->request('GET','http://127.0.0.1/api/news/12');
 
         $logger->warning('Acessou a home');
 
@@ -50,18 +53,21 @@ class HomeController extends  AbstractController {
              'categories' => $service->getCategoryList($httpClient),
             ]);
     }
-
     #[Route('/categoria/{slug}', name: 'app_category')]
-    public function category( $slug,EntityManagerInterface $entityManager ):Response{
-
-        $newsRepository = $entityManager->getRepository(News::class);
-        $news = $newsRepository->findAll();
+    public function category($slug, EntityManagerInterface $entityManager): Response
+    {
+        //$newsRepository = $entityManager->getRepository(News::class);
+        // $news = $newsRepository->findAll();
+        $news = $this->newsService->findByCategoryTitle($slug);
         $pageTitle =  $slug;
 
-        return $this->render('hello/category.html.twig', [
+        $newsCategoryRepository = $entityManager->getRepository(NewsCategory::class);
+        $categories = $newsCategoryRepository->findBy([],['title'=>'ASC']);
 
+        return $this->render('hello/category.html.twig', [
             'pageTitle' => $pageTitle,
-            'news'=> $news
+            'news'=> $news,
+            'categories'=> $categories
        ]);
     }
 }

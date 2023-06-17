@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Setup Symfony directories
+mkdir -p var/cache/dev var/log/dev
+
+# Setup permissions
+chmod -R 777 var/
+
+# Setup git
+git config --global http.sslVerify false
+
+# Build back-end
+composer install
+composer dump-autoload -o
+composer clear-cache
+
+# Build front-end
+npm install
+./node_modules/gulp/bin/gulp.js
+
+# Wait until DB is up and ready for connections
+#until bin/console doctrine:query:sql "SELECT 1 FROM dual" >/dev/null 2>&1; do
+#  (echo >&2 "Waiting for Oracle to be ready...")
+#  sleep 1
+#done
+
+exec php-fpm
