@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+//CONTROLLER PARA EXEMPLIFICAR UMA REQUISIÇÃO, NÃO É UTILIZADA
 class NewsController extends AbstractController {
     #[Route('api/news/{id}', name: 'api_new', methods: ['GET'])]
     public function  getNew(int $id=null): Response {

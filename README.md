@@ -4,6 +4,7 @@ Minha plataforma
 0 - Acessando o terminal dentro da pasta do projeto, 
 podemos execuar o seguinte comando:
 
+    docker compose build
     docker compose up -d
 
 1 - Identificar o id do container do PHP executando o comando abaixo

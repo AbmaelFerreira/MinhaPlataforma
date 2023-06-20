@@ -65,4 +65,5 @@ class NewsService
             'category' => $category
         ]);
     }
+
 }

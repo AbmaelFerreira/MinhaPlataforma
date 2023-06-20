@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\News;
 use App\Entity\NewsCategory;
+use App\Repository\NewsCategoryRepository;
+use App\Repository\NewsRepository;
 use App\Service\NewsService;
 use App\service\StringManipulationService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,9 +21,15 @@ use function Symfony\Component\String\u;
 
 class HomeController extends  AbstractController {
 
+    /**
+     * @param bool $isDebug
+     * @param NewsService $newsService
+     */
     public function __construct(
-        #[Autowire('kernel.debug')] private bool $isDebug,
-        private NewsService $newsService) { }
+        #[Autowire('kernel.debug')]
+        private bool $isDebug,
+        private NewsService $newsService
+    ) { }
 
     #[Route('/', name: 'app_home')]
     public function home(
@@ -30,8 +38,8 @@ class HomeController extends  AbstractController {
             StringManipulationService $stringManipulationService,
             Environment $twig,
             HttpClientInterface $httpClient,
-            NewsService $service
-    ): Response{
+            NewsCategoryRepository $newsCategoryRepository
+    ): Response {
 
         $test = 'abmael]de[lima]ferreira]Fera';
 
@@ -46,22 +54,19 @@ class HomeController extends  AbstractController {
         $pageTitle =  "Sistama de Notícias";
 
         $logger->info('Titulo definido');
+        $categery = $newsCategoryRepository->findAllCategoryOrderByTitle();
 
         return $this->render('hello/homepage.html.twig',[
 
              'pageTitle' => $pageTitle,
-             'categories' => $service->getCategoryList($httpClient),
+             'categories' => $categery
             ]);
     }
     #[Route('/categoria/{slug}', name: 'app_category')]
-    public function category($slug, EntityManagerInterface $entityManager): Response
+    public function category($slug, NewsCategoryRepository $newsCategoryRepository): Response
     {
-        //$newsRepository = $entityManager->getRepository(News::class);
-        // $news = $newsRepository->findAll();
         $news = $this->newsService->findByCategoryTitle($slug);
         $pageTitle =  $slug;
-
-        $newsCategoryRepository = $entityManager->getRepository(NewsCategory::class);
         $categories = $newsCategoryRepository->findBy([],['title'=>'ASC']);
 
         return $this->render('hello/category.html.twig', [
@@ -69,5 +74,16 @@ class HomeController extends  AbstractController {
             'news'=> $news,
             'categories'=> $categories
        ]);
+    }
+    #[Route(path: '/pesquisa/', name: 'app_news_filter')]
+    public function filter(Request $request, NewsRepository $newsRepository): Response
+    {
+      $search = $request->query->get('search');
+      $listNews = $newsRepository->findBySearch($request->query->get('search')); //refatorar para o servico
+
+      return $this->render('search.html.twig', [
+        'news' => $listNews,
+        'search' => $search
+      ]);
     }
 }

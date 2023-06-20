@@ -39,6 +39,20 @@ class NewsCategoryRepository extends ServiceEntityRepository
         }
     }
 
+        /**
+     * @return NewsCategory[] Returns an array of NewsCategory objects
+     */
+    public function findAllCategoryOrderByTitle(): array
+    {
+        return $this->createQueryBuilder('n')
+            ->orderBy('n.title', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
 //    /**
 //     * @return NewsCategory[] Returns an array of NewsCategory objects
 //     */
