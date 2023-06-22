@@ -142,3 +142,10 @@ h1, h2, h3, h4, h5, h6 {
 .blog-footer p:last-child {
     margin-bottom: 0;
 }
+
+.card:hover {
+    background: #f3f3f3;
+    -webkit-box-shadow: 10px 9px 24px 5px rgba(0,0,0,0.75) !important;
+    -moz-box-shadow: 10px 9px 24px 5px rgba(0,0,0,0.75) !important;
+    box-shadow: 10px 9px 24px 5px rgba(0,0,0,0.75) !important;
+}

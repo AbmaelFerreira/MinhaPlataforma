@@ -24,7 +24,7 @@
                      {%for new in news %}
 {#                         {{ dump(new) }}#}
                      <div class="col">
-                         <div class="card shadow-sm">
+                         <a href="{{ path('app_news_detail', {'id':new.id}) }}" class="card shadow-sm text-decoration-none text-black">
 {#                            <img src="https://picsum.photos/419/225?id={{ loop.index }}">#}
                              <img src="https://loremflickr.com/419/225/{{ pageTitle }}?id={{ loop.index }}">
                              <div class="card-body">
@@ -35,13 +35,13 @@
                                  <div class="d-flex justify-content-between align-items-center">
                                      <div class="btn-group">
                                          <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                         <button type="button" class="btn btn-sm btn-outline-secondary">Detalhes</button>
+                                         <div type="button" class="btn btn-sm btn-outline-secondary">Detalhes</div>
                                      </div>
 {#                                     <small class="text-body-secondary">{{ new.create_at | date('d/m/Y H:i') }}</small>#}
                                      <small class="text-body-secondary">{{ new.createAt | ago(locale='pt') }}</small>
                                  </div>
                              </div>
-                         </div>
+                         </a>
                      </div>
                     {% endfor %}
                  </div>
