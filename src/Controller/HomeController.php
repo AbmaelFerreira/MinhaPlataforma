@@ -88,10 +88,17 @@ class HomeController extends  AbstractController {
     }
 
     #[Route(path: '/news/{id}', name: 'app_news_detail')]
-    public function newsDetail($id, Request $request, NewsRepository $newsRepository): Response
+    public function newsDetail(News $news=null): Response
     {
-        $news = $newsRepository->find($id);
-        return $this->render('newsDetail.html.twig',[
+        if (!$news) {
+            throw $this->createNotFoundException('Noticia não encontrada');
+        }
+
+//        if ($news->getCreateAt() < \DateTimeImmutable::createFromFormat('j-M-Y', '23-JUN-2023' )) {
+//          throw $this->createNotFoundException('Notícia muito antiga');
+//        }
+
+        return $this->render('newsDetail.html.twig', [
             'news' => $news
         ]);
     }
