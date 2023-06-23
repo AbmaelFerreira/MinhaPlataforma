@@ -23,7 +23,7 @@
                 <p class="text-muted">
                     {{ newsItem.description }}
                 </p>
-                <a href="{{ path('app_news_detail',{'id':newsItem.id}) }}" type="button" class="btn btn-primary">
+                <a href="{{ path('app_news_detail',{'slug':newsItem.slug}) }}" type="button" class="btn btn-primary">
                     Leia Mais
                 </a>
             </div>

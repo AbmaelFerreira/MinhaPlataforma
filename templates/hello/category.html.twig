@@ -24,7 +24,7 @@
                      {%for new in news %}
 {#                         {{ dump(new) }}#}
                      <div class="col">
-                         <a href="{{ path('app_news_detail', {'id':new.id}) }}" class="card shadow-sm text-decoration-none text-black">
+                         <a href="{{ path('app_news_detail', {'slug':new.slug}) }}" class="card shadow-sm text-decoration-none text-black">
 {#                            <img src="https://picsum.photos/419/225?id={{ loop.index }}">#}
                              <img src="https://loremflickr.com/419/225/{{ pageTitle }}?id={{ loop.index }}">
                              <div class="card-body">

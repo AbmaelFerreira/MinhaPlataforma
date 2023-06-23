@@ -87,7 +87,7 @@ class HomeController extends  AbstractController {
       ]);
     }
 
-    #[Route(path: '/news/{id}', name: 'app_news_detail')]
+    #[Route(path: '/news/{slug}', name: 'app_news_detail')]
     public function newsDetail(News $news=null): Response
     {
         if (!$news) {
